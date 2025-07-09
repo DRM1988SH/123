@@ -1,47 +1,53 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>نظام المختبر البيطري</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div id="welcomeScreen" class="screen">🐫 أهلاً بك</div>
+<body onload="startApp()">
 
+  <!-- شاشة ترحيب -->
+  <div id="welcomeScreen">
+    <img src="https://static.vecteezy.com/system/resources/previews/048/685/051/original/minimalist-camel-silhouette-clipart-illustration-on-a-white-background-free-vector.jpg" alt="جمل ثلاثي الأبعاد" class="camel-icon">
+  </div>
+
+  <!-- شاشة تسجيل الدخول -->
   <div id="loginScreen" class="screen">
     <h2>تسجيل الدخول</h2>
-    <input id="empId" placeholder="رقم الموظف" />
+    <input type="text" id="empId" placeholder="الرقم الوظيفي">
     <button onclick="login()">دخول</button>
   </div>
 
+  <!-- الداشبورد -->
   <div id="dashboardScreen" class="screen">
-    <h2 id="userWelcome"></h2>
-    <button id="entryBtn" onclick="openScreen('entryScreen')">🧪 إدخال البيانات</button>
-    <button id="reportBtn" onclick="openScreen('reportScreen')">📋 عرض التقرير</button>
-    <button id="settingsBtn" onclick="openScreen('settingsScreen')">⚙️ الإعدادات</button>
-    <button id="usersBtn" onclick="openScreen('usersScreen')">👥 إدارة المستخدمين</button>
-    <button onclick="logout()">🚪 تسجيل خروج</button>
-    <select id="langSelect" onchange="changeLanguage()">
-      <option value="ar">عربي</option>
-      <option value="en">English</option>
-      <option value="ur">اردو</option>
-    </select>
+    <h2 id="userWelcome">مرحباً</h2>
+    <div class="dashboard-buttons">
+      <button onclick="openScreen('entryScreen')">🧪 إدخال البيانات</button>
+      <button onclick="openScreen('reportScreen')">📋 عرض التقرير</button>
+      <button onclick="openScreen('settingsScreen')" id="settingsBtn">⚙️ الإعدادات</button>
+      <button onclick="openScreen('usersScreen')" id="usersBtn">👥 إدارة المستخدمين</button>
+      <select id="langSelect" onchange="changeLanguage()">
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+        <option value="ur">اردو</option>
+      </select>
+      <button onclick="logout()">🚪 تسجيل خروج</button>
+    </div>
   </div>
 
+  <!-- إدخال البيانات -->
   <div id="entryScreen" class="screen">
     <h2>إدخال البيانات</h2>
     <form id="dataForm">
-      <input type="date" id="dateInput" />
-      <input id="siteName" disabled />
-      <input id="barnName" placeholder="اسم الحظيرة" />
-      <input id="licenseNo" placeholder="رقم الرخصة" />
+      <input type="date" id="dateInput">
+      <input type="text" id="siteName" readonly>
+      <div id="barnSection">
+        <input type="text" id="barnName" placeholder="اسم الحظيرة">
+        <input type="text" id="licenseNo" placeholder="رقم الرخصة">
+      </div>
       <select id="animalType"></select>
-      <select id="gender">
-        <option>ذكر</option><option>أنثى</option>
-      </select>
+      <select id="gender"><option>ذكر</option><option>أنثى</option></select>
       <select id="sampleType"></select>
       <select id="resultType"></select>
       <textarea id="notes" placeholder="ملاحظات"></textarea>
@@ -50,44 +56,43 @@
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
+  <!-- التقرير -->
   <div id="reportScreen" class="screen">
     <h2>📋 التقرير</h2>
-    <input type="date" id="fromDate" />
-    <input type="date" id="toDate" />
+    <label>من <input type="date" id="fromDate"> إلى <input type="date" id="toDate"></label>
     <select id="filterSite"></select>
     <select id="filterType">
       <option value="">الكل</option>
-      <option value="مسلخ">مسلخ</option>
       <option value="سوق">سوق</option>
+      <option value="مسلخ">مسلخ</option>
     </select>
-    <button onclick="generateReport()">عرض</button>
+    <button onclick="generateReport()">عرض التقرير</button>
     <div id="reportContent"></div>
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
+  <!-- الإعدادات -->
   <div id="settingsScreen" class="screen">
     <h2>⚙️ الإعدادات</h2>
-    <textarea id="animalList" placeholder="قائمة الحيوانات مفصولة بفواصل"></textarea>
-    <textarea id="sampleList" placeholder="قائمة العينات مفصولة بفواصل"></textarea>
-    <textarea id="resultList" placeholder="قائمة النتائج مفصولة بفواصل"></textarea>
+    <textarea id="animalList" placeholder="أنواع الحيوانات (بفواصل)"></textarea>
+    <textarea id="sampleList" placeholder="أنواع العينات"></textarea>
+    <textarea id="resultList" placeholder="نتائج الفحص"></textarea>
     <button onclick="saveSettings()">💾 حفظ</button>
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
+  <!-- المستخدمين -->
   <div id="usersScreen" class="screen">
     <h2>👥 إدارة المستخدمين</h2>
-    <input id="newEmpId" placeholder="رقم الموظف" />
-    <input id="newName" placeholder="الاسم" />
-    <select id="newType">
-      <option value="مسلخ">مسلخ</option>
-      <option value="سوق">سوق</option>
-    </select>
-    <input id="newSite" placeholder="الموقع" />
+    <input type="text" id="newEmpId" placeholder="رقم وظيفي جديد">
+    <input type="text" id="newName" placeholder="اسم المستخدم">
+    <select id="newType"><option value="سوق">سوق</option><option value="مسلخ">مسلخ</option></select>
+    <input type="text" id="newSite" placeholder="اسم الموقع">
     <button onclick="addUser()">➕ إضافة</button>
     <div id="usersList"></div>
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
