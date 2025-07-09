@@ -6,6 +6,19 @@ body {
   padding: 0;
 }
 
+#welcomeScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: white;
+}
+
+.camel-icon {
+  width: 300px;
+  height: auto;
+}
+
 .screen {
   display: none;
   padding: 20px;
@@ -15,22 +28,9 @@ body {
   display: block;
 }
 
-#welcomeScreen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  height: 100vh;
-}
-
-.camel-icon {
-  width: 300px;
-  height: auto;
-}
-
 h2 {
-  text-align: center;
   color: #333;
+  text-align: center;
 }
 
 input, select, textarea, button {
@@ -47,7 +47,7 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s ease;
 }
 
 button:hover {
