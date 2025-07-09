@@ -1,10 +1,9 @@
 body {
-  font-family: "Cairo", sans-serif;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
   direction: rtl;
   margin: 0;
   padding: 0;
-  background: #f4f4f4;
-  text-align: center;
 }
 
 .screen {
@@ -16,32 +15,64 @@ body {
   display: block;
 }
 
+#welcomeScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  height: 100vh;
+}
+
+.camel-icon {
+  width: 300px;
+  height: auto;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+}
+
 input, select, textarea, button {
   display: block;
-  width: 90%;
+  width: 100%;
+  max-width: 400px;
   margin: 10px auto;
   padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  font-size: 16px;
 }
 
 button {
-  background-color: #8e5c2a;
+  background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 button:hover {
-  background-color: #6e441f;
+  background-color: #388e3c;
 }
 
-#welcomeScreen {
+textarea {
+  height: 80px;
+}
+
+.dashboard-buttons {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-size: 2rem;
-  background-color: #f9f0e6;
+  gap: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
 }
