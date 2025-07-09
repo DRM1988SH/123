@@ -1,31 +1,22 @@
-// --- Firebase إعداد ---
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import {
-  getFirestore, collection, getDocs, addDoc, setDoc,
-  doc, query, where
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCv4hz5821FEigAUouDnzJzQf0QzsT0Ihs",
-  authDomain: "cashier-a1d32.firebaseapp.com",
-  projectId: "cashier-a1d32",
-  storageBucket: "cashier-a1d32.appspot.com",
-  messagingSenderId: "909595103212",
-  appId: "1:909595103212:web:b5fe2a52710d2bfe993ac9",
-  measurementId: "G-ZGH8JX7LF3"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 // --- تعريف المستخدم الحالي ---
 let currentUser = null;
 let currentLang = 'ar';
+let localDB = {
+  users: [
+    { empId: '70062', name: 'Musab Ali', type: 'مسلخ', site: 'مسلخ مدينة زايد' },
+    { empId: '70061', name: 'Safi Eldaw', type: 'سوق', site: 'سوق المواشي غياثي' }
+  ],
+  entries: [],
+  settings: {
+    animals: "جمل,بقر,غنم",
+    samples: "دم,أنسجة,براز",
+    results: "سلبي,إيجابي"
+  }
+};
 
 // --- ترجمة ---
 const translations = { /* ... (نفس الترجمة السابقة كاملة) */ };
 
-// --- تشغيل التطبيق ---
 function startApp() {
   document.getElementById('welcomeScreen').style.display = 'flex';
   setTimeout(() => {
@@ -34,14 +25,11 @@ function startApp() {
   }, 2000);
 }
 
-// --- تسجيل الدخول ---
-async function login() {
+function login() {
   const empId = document.getElementById('empId').value.trim();
-  const q = query(collection(db, "users"), where("empId", "==", empId));
-  const snapshot = await getDocs(q);
-  if (!snapshot.empty) {
-    const doc = snapshot.docs[0];
-    currentUser = doc.data();
+  const user = localDB.users.find(u => u.empId === empId);
+  if (user) {
+    currentUser = user;
     document.getElementById('userWelcome').textContent = `${translations[currentLang].welcome} ${currentUser.name}`;
     document.getElementById('siteName').value = currentUser.site;
     document.getElementById('loginScreen').classList.remove('visible');
@@ -56,8 +44,7 @@ async function login() {
   }
 }
 
-// --- إدخال بيانات ---
-document.getElementById("dataForm").addEventListener("submit", async function (e) {
+document.getElementById("dataForm").addEventListener("submit", function (e) {
   e.preventDefault();
   const entry = {
     date: document.getElementById("dateInput").value,
@@ -72,21 +59,19 @@ document.getElementById("dataForm").addEventListener("submit", async function (e
     user: currentUser.name,
     type: currentUser.type
   };
-  await addDoc(collection(db, "entries"), entry);
+  localDB.entries.push(entry);
   alert(translations[currentLang].saved);
   this.reset();
   document.getElementById("siteName").value = currentUser.site;
 });
 
-// --- توليد التقرير ---
-async function generateReport() {
+function generateReport() {
   const from = document.getElementById("fromDate").value;
   const to = document.getElementById("toDate").value;
   const filterSite = document.getElementById("filterSite").value;
   const filterType = document.getElementById("filterType").value;
 
-  const snapshot = await getDocs(collection(db, "entries"));
-  let filtered = snapshot.docs.map(doc => doc.data());
+  let filtered = localDB.entries.slice();
 
   if (from) filtered = filtered.filter(e => e.date >= from);
   if (to) filtered = filtered.filter(e => e.date <= to);
@@ -110,25 +95,18 @@ async function generateReport() {
   `;
 }
 
-// --- حفظ الإعدادات ---
-async function saveSettings() {
-  await setDoc(doc(db, "settings", "lists"), {
-    animals: document.getElementById("animalList").value,
-    samples: document.getElementById("sampleList").value,
-    results: document.getElementById("resultList").value
-  });
+function saveSettings() {
+  localDB.settings.animals = document.getElementById("animalList").value;
+  localDB.settings.samples = document.getElementById("sampleList").value;
+  localDB.settings.results = document.getElementById("resultList").value;
   alert(translations[currentLang].saved);
   loadSettings();
 }
 
-// --- تحميل الإعدادات ---
-async function loadSettings() {
-  const docSnap = await getDocs(collection(db, "settings"));
-  const doc = docSnap.docs.find(d => d.id === "lists");
-  const data = doc ? doc.data() : {};
-  const animals = (data.animals || "جمل,بقر,غنم").split(',');
-  const samples = (data.samples || "دم,أنسجة,براز").split(',');
-  const results = (data.results || "سلبي,إيجابي").split(',');
+function loadSettings() {
+  const animals = (localDB.settings.animals || "جمل,بقر,غنم").split(',');
+  const samples = (localDB.settings.samples || "دم,أنسجة,براز").split(',');
+  const results = (localDB.settings.results || "سلبي,إيجابي").split(',');
   fillSelect("animalType", animals);
   fillSelect("sampleType", samples);
   fillSelect("resultType", results);
@@ -144,33 +122,28 @@ function fillSelect(id, items) {
   });
 }
 
-// --- إضافة مستخدم جديد ---
-async function addUser() {
+function addUser() {
   if (currentUser.empId !== '70062') return;
   const id = document.getElementById("newEmpId").value.trim();
   const name = document.getElementById("newName").value.trim();
   const type = document.getElementById("newType").value;
   const site = document.getElementById("newSite").value.trim();
   if (!id || !name || !site) return alert("يرجى ملء جميع الحقول");
-  await setDoc(doc(db, "users", id), { empId: id, name, type, site });
+  localDB.users.push({ empId: id, name, type, site });
   renderUsers();
   alert("تمت إضافة المستخدم");
 }
 
-// --- عرض المستخدمين ---
-async function renderUsers() {
+function renderUsers() {
   const list = document.getElementById("usersList");
   list.innerHTML = "";
-  const snapshot = await getDocs(collection(db, "users"));
-  snapshot.forEach(doc => {
-    const u = doc.data();
+  localDB.users.forEach(u => {
     const div = document.createElement("div");
     div.textContent = `${u.empId} - ${u.name} - ${u.type} - ${u.site}`;
     list.appendChild(div);
   });
 }
 
-// --- اللغة ---
 function changeLanguage() {
   currentLang = document.getElementById("langSelect").value;
   applyLanguage();
@@ -178,8 +151,7 @@ function changeLanguage() {
 
 function applyLanguage() {
   const t = translations[currentLang];
-  // يتم تعميم الترجمة حسب معرفات العناصر
-  // كما هو موضح سابقًا (نفس دالة applyLanguage السابقة)
+  // تحديث النصوص بناء على اللغة
 }
 
 function openScreen(id) {
