@@ -12,7 +12,7 @@
     <img src="https://static.vecteezy.com/system/resources/previews/048/685/051/original/minimalist-camel-silhouette-clipart-illustration-on-a-white-background-free-vector.jpg" alt="جمل ثلاثي الأبعاد" class="camel-icon">
   </div>
 
-  <!-- شاشة تسجيل الدخول -->
+  <!-- تسجيل الدخول -->
   <div id="loginScreen" class="screen">
     <h2>تسجيل الدخول</h2>
     <input type="text" id="empId" placeholder="الرقم الوظيفي">
@@ -44,7 +44,7 @@
       <input type="text" id="siteName" readonly>
       <div id="barnSection">
         <input type="text" id="barnName" placeholder="اسم الحظيرة">
-        <input type="text" id="licenseNo" placeholder="رقم الرخصة">
+        <input type="text" id="licenseNo" placeholder="رقم الرخصة التجارية">
       </div>
       <select id="animalType"></select>
       <select id="gender"><option>ذكر</option><option>أنثى</option></select>
@@ -74,14 +74,14 @@
   <!-- الإعدادات -->
   <div id="settingsScreen" class="screen">
     <h2>⚙️ الإعدادات</h2>
-    <textarea id="animalList" placeholder="أنواع الحيوانات (بفواصل)"></textarea>
+    <textarea id="animalList" placeholder="أنواع الحيوانات (مفصولة بفواصل)"></textarea>
     <textarea id="sampleList" placeholder="أنواع العينات"></textarea>
     <textarea id="resultList" placeholder="نتائج الفحص"></textarea>
     <button onclick="saveSettings()">💾 حفظ</button>
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
-  <!-- المستخدمين -->
+  <!-- إدارة المستخدمين -->
   <div id="usersScreen" class="screen">
     <h2>👥 إدارة المستخدمين</h2>
     <input type="text" id="newEmpId" placeholder="رقم وظيفي جديد">
@@ -93,6 +93,7 @@
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
+  <!-- الربط مع Firebase -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
