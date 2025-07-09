@@ -6,19 +6,6 @@ body {
   padding: 0;
 }
 
-#welcomeScreen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: white;
-}
-
-.camel-icon {
-  width: 300px;
-  height: auto;
-}
-
 .screen {
   display: none;
   padding: 20px;
@@ -26,6 +13,19 @@ body {
 
 .screen.visible {
   display: block;
+}
+
+#welcomeScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  height: 100vh;
+}
+
+.camel-icon {
+  width: 300px;
+  height: auto;
 }
 
 h2 {
@@ -75,4 +75,10 @@ th, td {
   padding: 10px;
   border: 1px solid #ccc;
   text-align: center;
+}
+
+select, input[type="date"] {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
