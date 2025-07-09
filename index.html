@@ -7,19 +7,19 @@
 </head>
 <body onload="startApp()">
 
-  <!-- شاشة ترحيب -->
+  <!-- شاشة الترحيب -->
   <div id="welcomeScreen">
-    <img src="https://static.vecteezy.com/system/resources/previews/048/685/051/original/minimalist-camel-silhouette-clipart-illustration-on-a-white-background-free-vector.jpg" alt="جمل ثلاثي الأبعاد" class="camel-icon">
+    <img src="https://static.vecteezy.com/system/resources/previews/048/685/051/original/minimalist-camel-silhouette-clipart-illustration-on-a-white-background-free-vector.jpg" class="camel-icon">
   </div>
 
-  <!-- تسجيل الدخول -->
+  <!-- شاشة الدخول -->
   <div id="loginScreen" class="screen">
     <h2>تسجيل الدخول</h2>
     <input type="text" id="empId" placeholder="الرقم الوظيفي">
     <button onclick="login()">دخول</button>
   </div>
 
-  <!-- الداشبورد -->
+  <!-- شاشة الداشبورد -->
   <div id="dashboardScreen" class="screen">
     <h2 id="userWelcome">مرحباً</h2>
     <div class="dashboard-buttons">
@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <!-- إدخال البيانات -->
+  <!-- شاشة الإدخال -->
   <div id="entryScreen" class="screen">
     <h2>إدخال البيانات</h2>
     <form id="dataForm">
@@ -56,7 +56,7 @@
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
-  <!-- التقرير -->
+  <!-- شاشة التقرير -->
   <div id="reportScreen" class="screen">
     <h2>📋 التقرير</h2>
     <label>من <input type="date" id="fromDate"> إلى <input type="date" id="toDate"></label>
@@ -71,7 +71,7 @@
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
-  <!-- الإعدادات -->
+  <!-- شاشة الإعدادات -->
   <div id="settingsScreen" class="screen">
     <h2>⚙️ الإعدادات</h2>
     <textarea id="animalList" placeholder="أنواع الحيوانات (مفصولة بفواصل)"></textarea>
@@ -81,7 +81,7 @@
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
-  <!-- إدارة المستخدمين -->
+  <!-- شاشة المستخدمين -->
   <div id="usersScreen" class="screen">
     <h2>👥 إدارة المستخدمين</h2>
     <input type="text" id="newEmpId" placeholder="رقم وظيفي جديد">
@@ -93,7 +93,7 @@
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
-  <!-- الربط مع Firebase -->
+  <!-- استدعاء Firebase + جافاسكريبت -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
