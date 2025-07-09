@@ -7,12 +7,12 @@
 </head>
 <body onload="startApp()">
 
-  <!-- شاشة الترحيب -->
+  <!-- شاشة ترحيب -->
   <div id="welcomeScreen">
-    <img src="https://static.vecteezy.com/system/resources/previews/048/685/051/original/minimalist-camel-silhouette-clipart-illustration-on-a-white-background-free-vector.jpg" class="camel-icon">
+    <img src="https://static.vecteezy.com/system/resources/previews/048/685/051/original/minimalist-camel-silhouette-clipart-illustration-on-a-white-background-free-vector.jpg" alt="جمل" class="camel-icon">
   </div>
 
-  <!-- شاشة الدخول -->
+  <!-- شاشة تسجيل الدخول -->
   <div id="loginScreen" class="screen">
     <h2>تسجيل الدخول</h2>
     <input type="text" id="empId" placeholder="الرقم الوظيفي">
@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <!-- شاشة الإدخال -->
+  <!-- شاشة إدخال البيانات -->
   <div id="entryScreen" class="screen">
     <h2>إدخال البيانات</h2>
     <form id="dataForm">
@@ -47,7 +47,9 @@
         <input type="text" id="licenseNo" placeholder="رقم الرخصة التجارية">
       </div>
       <select id="animalType"></select>
-      <select id="gender"><option>ذكر</option><option>أنثى</option></select>
+      <select id="gender">
+        <option>ذكر</option><option>أنثى</option>
+      </select>
       <select id="sampleType"></select>
       <select id="resultType"></select>
       <textarea id="notes" placeholder="ملاحظات"></textarea>
@@ -81,19 +83,21 @@
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
-  <!-- شاشة المستخدمين -->
+  <!-- شاشة إدارة المستخدمين -->
   <div id="usersScreen" class="screen">
     <h2>👥 إدارة المستخدمين</h2>
     <input type="text" id="newEmpId" placeholder="رقم وظيفي جديد">
     <input type="text" id="newName" placeholder="اسم المستخدم">
-    <select id="newType"><option value="سوق">سوق</option><option value="مسلخ">مسلخ</option></select>
+    <select id="newType">
+      <option value="سوق">سوق</option>
+      <option value="مسلخ">مسلخ</option>
+    </select>
     <input type="text" id="newSite" placeholder="اسم الموقع">
     <button onclick="addUser()">➕ إضافة</button>
     <div id="usersList"></div>
     <button onclick="goBack()">🔙 رجوع</button>
   </div>
 
-  <!-- استدعاء Firebase + جافاسكريبت -->
-  <script type="module" src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
